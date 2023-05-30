@@ -10,6 +10,9 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
+        transform.position = playerTransform.position;
+
+        /*
         if(Vector3.Distance(transform.position, playerTransform.position) > cameraMaxDistance)
         {
             MoveTowardsPlayer();
@@ -18,6 +21,7 @@ public class CameraFollow : MonoBehaviour
         {
             MoveAwayFromPlayer();
         }
+        */
     }
 
     void MoveTowardsPlayer()

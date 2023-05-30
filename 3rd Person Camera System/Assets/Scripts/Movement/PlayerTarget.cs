@@ -24,7 +24,7 @@ public class PlayerTarget : MonoBehaviour
     {
         float yRotation = cameraTransform.rotation.y;
 
-        transform.eulerAngles = new Vector3(transform.rotation.x, yRotation, transform.rotation.z);
+        transform.eulerAngles = new Vector3(0, yRotation, 0);
     }
 
     void SetPosition()

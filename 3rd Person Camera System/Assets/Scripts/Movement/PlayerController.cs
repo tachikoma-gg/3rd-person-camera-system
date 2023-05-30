@@ -5,25 +5,32 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private Transform playerTarget;
     [SerializeField] private float speed;
+
+    private float inputX, inputY;
 
     void Update()
     {
-        float inputX = Input.GetAxis("Horizontal");
-        float inputY = Input.GetAxis("Vertical");
-        
-        float input = Mathf.Sqrt(inputX * inputY);
+        inputX = Input.GetAxis("Horizontal");
+        inputY = Input.GetAxis("Vertical");
 
-        animator.SetFloat("Speed_f", input * 2);
+        RotatePlayer();
+        MovePlayer();
+    }
 
-        transform.LookAt(playerTarget.position);
-        // MovePlayer(input, speed);
+    void RotatePlayer()
+    {
+        float rotationY = Mathf.Atan2(inputX, inputY) * Mathf.Rad2Deg;  // Inverse Tangent. Convert Radians to Degrees.
+
+        transform.rotation = Quaternion.Euler(0, rotationY, 0);         // Rotate player.
         
     }
 
-    void MovePlayer(float input, float speed)
+    void MovePlayer()
     {
-        // transform.Translate(Vector3.forward * input * speed * Time.deltaTime);
+        float input = Mathf.Sqrt(Mathf.Pow(inputX, 2) + Mathf.Pow(inputY, 2));  // Pythagorean Theorem.
+        
+        transform.Translate(Vector3.forward * input * speed * Time.deltaTime);  // Translate player forward. Not relative to camera.
+        animator.SetFloat("Speed_f", input * 2);
     }
 }
