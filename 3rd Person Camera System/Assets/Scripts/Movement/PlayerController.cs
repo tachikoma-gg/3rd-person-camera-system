@@ -5,32 +5,43 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private float speed;
-
-    private float inputX, inputY;
+    [SerializeField] private float speed, rotateSpeed;
 
     void Update()
     {
-        inputX = Input.GetAxis("Horizontal");
-        inputY = Input.GetAxis("Vertical");
-
         RotatePlayer();
         MovePlayer();
     }
 
     void RotatePlayer()
     {
-        float rotationY = Mathf.Atan2(inputX, inputY) * Mathf.Rad2Deg;  // Inverse Tangent. Convert Radians to Degrees.
+        float inputX = Input.GetAxis("Horizontal");
+        float inputY = Input.GetAxis("Vertical");
 
-        transform.rotation = Quaternion.Euler(0, rotationY, 0);         // Rotate player.
-        
+        if(inputX != 0 || inputY != 0)
+        {
+            float rotationY = Mathf.Atan2(inputX, inputY) * Mathf.Rad2Deg;
+            float cameraRotationY = FindObjectOfType<CameraFollow>().GetComponent<Transform>().eulerAngles.y;
+            float targetAngle = rotationY += cameraRotationY;
+            float currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotateSpeed * Time.deltaTime);
+
+            transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+        }
     }
 
     void MovePlayer()
     {
-        float input = Mathf.Sqrt(Mathf.Pow(inputX, 2) + Mathf.Pow(inputY, 2));  // Pythagorean Theorem.
-        
-        transform.Translate(Vector3.forward * input * speed * Time.deltaTime);  // Translate player forward. Not relative to camera.
+        float inputX = Input.GetAxis("Horizontal");
+        float inputY = Input.GetAxis("Vertical");
+        float input = Mathf.Sqrt(Mathf.Pow(inputX, 2) + Mathf.Pow(inputY, 2));
+
+        transform.Translate(Vector3.forward * input * speed * Time.deltaTime);
+
         animator.SetFloat("Speed_f", input * 2);
+    }
+
+    public float PlayerSpeed()
+    {
+        return speed;
     }
 }

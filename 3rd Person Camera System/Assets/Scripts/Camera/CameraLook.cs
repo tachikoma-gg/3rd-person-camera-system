@@ -6,7 +6,12 @@ public class CameraLook : MonoBehaviour
 {
     [SerializeField] private Transform playerHeadTransform;
 
-    void Update()
+    void LateUpdate()
+    {
+        RotateCamera();
+    }
+
+    void RotateCamera()
     {
         transform.LookAt(playerHeadTransform.position);
     }
