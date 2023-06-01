@@ -5,18 +5,21 @@ using UnityEngine;
 public class CameraModeToggle : MonoBehaviour
 {
     [SerializeField] Transform cameraLockPoint;
+    [SerializeField] private bool toggleFollowCamera;
     
     private bool ready = true;
 
     private bool heightSet = true;
     private bool rotationSet = true;
+    private bool cameraFollow = true;
 
     void Update()
     {
-        IsCameraFollowingPlayer();
+        CheckTrigger();
+        CheckShoulder();
     }
 
-    void IsCameraFollowingPlayer()
+    void CheckTrigger()
     {
         float trigger = Input.GetAxis("Trigger_Left");
         CameraHeight cameraHeight = GetComponent<CameraHeight>();
@@ -24,21 +27,34 @@ public class CameraModeToggle : MonoBehaviour
 
         if(trigger > 0.19f && ready)
         {
-            cameraHeight.TriggerCameraLock(true);
-            cameraRotate.TriggerCameraLock(true);
             HeightSet(false);
+            cameraFollow = false;
             ready = false;
         }
         else if(trigger < 0.19 && !ready)
         {
-            cameraHeight.TriggerCameraLock(false);
-            cameraRotate.TriggerCameraLock(false);
+            cameraFollow = true;
             ready = true;
         }
         else if(heightSet && rotationSet)
         {
-            cameraHeight.TriggerCameraLock(false);
-            cameraRotate.TriggerCameraLock(false);
+            // cameraFollow = true;
+        }
+    }
+
+    void CheckShoulder()
+    {
+        if(Input.GetKeyDown(KeyCode.P) || (Input.GetKeyUp(KeyCode.P) && toggleFollowCamera))
+        {   
+            cameraFollow = !cameraFollow;
+        }
+    }
+
+    void CheckFollowState()
+    {
+        if(heightSet && rotationSet)
+        {
+            cameraFollow = true;
         }
     }
 
@@ -50,5 +66,15 @@ public class CameraModeToggle : MonoBehaviour
     public void RotationSet(bool input)
     {
         rotationSet = input;
+    }
+
+    public bool HeightFollow()
+    {
+        return heightSet;
+    }
+
+    public bool CameraFollow()
+    {
+        return cameraFollow;
     }
 }

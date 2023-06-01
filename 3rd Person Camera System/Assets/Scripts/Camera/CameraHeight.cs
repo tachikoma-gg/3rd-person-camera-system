@@ -8,15 +8,15 @@ public class CameraHeight : MonoBehaviour
     [SerializeField] private int cameraHeightMin, cameraHeightMax;
     [SerializeField] private int cameraSpeed;
 
-    private bool cameraFollow = true;
-
     void Update()
     {
-        if(cameraFollow)
+        bool heightFollow = GetComponent<CameraModeToggle>().HeightFollow();
+
+        if(heightFollow)
         {
             SetCameraHeight();
         }
-        else if(!cameraFollow)
+        else if(!heightFollow)
         {
             LockCameraHeight();
         }
@@ -56,10 +56,5 @@ public class CameraHeight : MonoBehaviour
         {
             GetComponent<CameraModeToggle>().HeightSet(true);
         }
-    }
-
-    public void TriggerCameraLock(bool trigger)
-    {
-        cameraFollow = !trigger;
     }
 }

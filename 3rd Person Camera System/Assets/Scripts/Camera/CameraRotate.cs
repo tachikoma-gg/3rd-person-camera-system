@@ -7,10 +7,10 @@ public class CameraRotate : MonoBehaviour
     [SerializeField] private Transform playerTransform, cameraLockPoint;
     [SerializeField] private int rotationSpeed, snapSpeed;
 
-    private bool cameraFollow = true;
-
     void Update()
     {
+        bool cameraFollow = GetComponent<CameraModeToggle>().CameraFollow();
+
         if(cameraFollow)
         {
             RotateCamera();
@@ -51,8 +51,8 @@ public class CameraRotate : MonoBehaviour
         }
     }
 
-    public void TriggerCameraLock(bool trigger)
+    public float RotationSpeed()
     {
-        cameraFollow = !trigger;
+        return rotationSpeed;
     }
 }
