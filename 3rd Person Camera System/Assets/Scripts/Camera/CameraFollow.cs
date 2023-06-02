@@ -4,31 +4,29 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform, playerBase;
+    [SerializeField] private Transform playerTransform, playerBase, playerShell;
     [SerializeField] private float cameraAcceleration;
     [SerializeField] private float cameraMaxDistance, cameraMinDistance;
 
     private float cameraSpeedCurrent;
-    private Vector3 relativePosition;
 
     void Update()
     {
-        bool cameraFollow = GetComponent<CameraModeToggle>().CameraFollow();
+        bool cameraHold = GetComponent<CameraModeToggle>().CameraHold();
 
         PointTowardsPlayer();
-
-        if(cameraFollow)
+        
+        if(!cameraHold)
         {
             CalculateCameraSpeed();
             MoveCamera();
-            UpdateRelativePosition();
+            LevelWithPlayer();
+            transform.SetParent(playerShell);
         }
-        else if(!cameraFollow)
+        if(cameraHold)
         {
-            transform.position = playerTransform.position + relativePosition;
+            transform.SetParent(playerBase);
         }
-
-        LevelWithPlayer();
     }
 
     void PointTowardsPlayer()
@@ -61,8 +59,12 @@ public class CameraFollow : MonoBehaviour
 
     void LevelWithPlayer()
     {
+        Ray ray = new Ray(playerTransform.position, Vector3.down);
+        RaycastHit hitData;
+        Physics.Raycast(ray, out hitData);
+
         float x = transform.position.x;
-        float y = playerTransform.position.y;
+        float y = hitData.point.y;
         float z = transform.position.z;
 
         Vector3 level = new Vector3(x, y, z);
@@ -75,10 +77,5 @@ public class CameraFollow : MonoBehaviour
         float distance = Vector3.Distance(transform.position, playerTransform.position);
         
         return distance;
-    }
-
-    void UpdateRelativePosition()
-    {
-        relativePosition = transform.position - playerTransform.position;
     }
 }

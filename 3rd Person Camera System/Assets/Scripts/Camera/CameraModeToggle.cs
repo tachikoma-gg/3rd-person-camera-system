@@ -5,13 +5,14 @@ using UnityEngine;
 public class CameraModeToggle : MonoBehaviour
 {
     [SerializeField] Transform cameraLockPoint;
-    [SerializeField] private bool toggleFollowCamera;
+    [SerializeField] private bool toggleHoldCamera;
     
     private bool ready = true;
 
     private bool heightSet = true;
     private bool rotationSet = true;
     private bool cameraFollow = true;
+    private bool cameraHold = false;
 
     void Update()
     {
@@ -44,9 +45,9 @@ public class CameraModeToggle : MonoBehaviour
 
     void CheckShoulder()
     {
-        if(Input.GetKeyDown(KeyCode.P) || (Input.GetKeyUp(KeyCode.P) && toggleFollowCamera))
+        if(Input.GetKeyDown(KeyCode.P) || (Input.GetKeyUp(KeyCode.P) && toggleHoldCamera))
         {   
-            cameraFollow = !cameraFollow;
+            cameraHold = !cameraHold;
         }
     }
 
@@ -76,5 +77,10 @@ public class CameraModeToggle : MonoBehaviour
     public bool CameraFollow()
     {
         return cameraFollow;
+    }
+
+    public bool CameraHold()
+    {
+        return cameraHold;
     }
 }

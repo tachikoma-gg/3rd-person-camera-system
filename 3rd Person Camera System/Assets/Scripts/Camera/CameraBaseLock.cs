@@ -9,8 +9,8 @@ public class CameraBaseLock : MonoBehaviour
     void Update()
     {
         SnapToPlayerPosition();
-        SnapToPlayerRotation();
-        RotateAroundPlayer();
+        // SnapToPlayerRotation();
+        // RotateAroundPlayer();
     }
 
     void SnapToPlayerPosition()
@@ -20,26 +20,26 @@ public class CameraBaseLock : MonoBehaviour
 
     void SnapToPlayerRotation()
     {
-        bool cameraFollow = FindObjectOfType<CameraModeToggle>().CameraFollow();
+        bool cameraHold = FindObjectOfType<CameraModeToggle>().CameraHold();
 
-        if(cameraFollow)
+        if(cameraHold)
         {
-            Debug.Log(cameraFollow);
+            Debug.Log(cameraHold);
             transform.rotation = playerTransform.rotation;
         }
     }
 
     void RotateAroundPlayer()
     {
-        bool cameraFollow = FindObjectOfType<CameraModeToggle>().CameraFollow();
+        bool cameraHold = FindObjectOfType<CameraModeToggle>().CameraHold();
 
-        if(!cameraFollow)
+        if(!cameraHold)
         {
             float input = Input.GetAxis("Horizontal_2");
-            float rotationSpeed = GetComponent<CameraRotate>().RotationSpeed();
+            float rotationSpeed = FindObjectOfType<CameraRotate>().RotationSpeed();
             float rotate = rotationSpeed * input * Time.deltaTime;
             transform.Rotate(Vector3.up * rotate * Time.deltaTime);
-            Debug.Log(cameraFollow + ", " + rotationSpeed);
+            Debug.Log(cameraHold + ", " + rotationSpeed);
         }
     }
 }
