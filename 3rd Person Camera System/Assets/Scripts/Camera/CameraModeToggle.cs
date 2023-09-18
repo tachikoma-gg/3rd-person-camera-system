@@ -26,13 +26,13 @@ public class CameraModeToggle : MonoBehaviour
         CameraHeight cameraHeight = GetComponent<CameraHeight>();
         CameraRotate cameraRotate = GetComponent<CameraRotate>();
 
-        if(trigger > 0.19f && ready)
+        if((trigger > 0.19f) && ready)
         {
             HeightSet(false);
             cameraFollow = false;
             ready = false;
         }
-        else if(trigger < 0.19 && !ready)
+        else if((trigger < 0.19) && !ready)
         {
             cameraFollow = true;
             ready = true;

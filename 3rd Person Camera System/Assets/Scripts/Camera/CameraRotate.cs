@@ -6,6 +6,7 @@ public class CameraRotate : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform, cameraLockPoint;
     [SerializeField] private int rotationSpeed, snapSpeed;
+    [SerializeField] private float mouseSensitivity;
 
     void Update()
     {
@@ -24,7 +25,7 @@ public class CameraRotate : MonoBehaviour
     void RotateCamera()
     {
         float inputX = Input.GetAxis("Horizontal_2");
-        float rotate = rotationSpeed * inputX * Time.deltaTime;
+        float rotate = (rotationSpeed * inputX) * Time.deltaTime;
         transform.RotateAround(playerTransform.position, Vector3.up, rotate);
     }
 

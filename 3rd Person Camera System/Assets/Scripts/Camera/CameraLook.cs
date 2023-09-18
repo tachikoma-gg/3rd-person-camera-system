@@ -6,6 +6,12 @@ public class CameraLook : MonoBehaviour
 {
     [SerializeField] private Transform playerHeadTransform;
 
+    void Start()
+    {
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
+    }
+
     void LateUpdate()
     {
         RotateCamera();

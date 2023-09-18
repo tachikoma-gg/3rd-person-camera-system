@@ -22,9 +22,8 @@ public class Jump : MonoBehaviour
 
     void JumpCheck()
     {
-        if(Input.GetAxis("Fire1") > 0.19f && grounded && jumpReady)
+        if(Input.GetAxis("Fire2") > 0.19f && grounded && jumpReady)
         {
-            Debug.Log("Jump");
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             grounded = false;
             jumpReady = false;
@@ -38,11 +37,8 @@ public class Jump : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("collide");
-
         if(collision.gameObject.layer == 7)
         {
-            Debug.Log("Grounded");
             grounded = true;
         }
     }

@@ -7,6 +7,7 @@ public class CameraHeight : MonoBehaviour
     [SerializeField] private Transform cameraPlayer, cameraLockPoint;
     [SerializeField] private int cameraHeightMin, cameraHeightMax;
     [SerializeField] private int cameraSpeed;
+    [SerializeField] private float mouseSensitivity;
 
     void Update()
     {
@@ -31,7 +32,7 @@ public class CameraHeight : MonoBehaviour
         float y = cameraPlayer.position.y;
         float z = cameraPlayer.position.z;
 
-        y += inputY * cameraSpeed * Time.deltaTime;
+        y += (inputY * cameraSpeed) * Time.deltaTime;
         y = Mathf.Clamp(y, cameraHeightMin, cameraHeightMax);
 
         Vector3 positionNew = new Vector3(x, y, z);
