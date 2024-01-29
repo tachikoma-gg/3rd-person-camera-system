@@ -22,14 +22,14 @@ public class Jump : MonoBehaviour
 
     void JumpCheck()
     {
-        if(Input.GetAxis("Fire2") > 0.19f && grounded && jumpReady)
+        if((Input.GetAxis("Fire2") > 0.19f || Input.GetKeyDown(KeyCode.Space)) && grounded && jumpReady)
         {
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             grounded = false;
             jumpReady = false;
         }
 
-        if(Input.GetAxis("Fire1") < 0.19f)
+        if(Input.GetAxis("Fire1") < 0.19f || Input.GetKeyUp(KeyCode.Space))
         {
             jumpReady = true;
         }

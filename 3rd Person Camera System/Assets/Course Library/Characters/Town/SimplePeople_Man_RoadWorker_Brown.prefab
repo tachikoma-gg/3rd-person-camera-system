@@ -365,8 +365,6 @@ GameObject:
   - component: {fileID: 9500000}
   - component: {fileID: 2605259094235802995}
   - component: {fileID: 278854668746127449}
-  - component: {fileID: 1965452187704126007}
-  - component: {fileID: 1815055636160949427}
   m_Layer: 0
   m_Name: SimplePeople_Man_RoadWorker_Brown
   m_TagString: Untagged
@@ -394,7 +392,7 @@ Transform:
   - {fileID: 2470349920942338217}
   - {fileID: 5714428059370240604}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7997013177467438075
 Rigidbody:
@@ -496,33 +494,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 30
   animator: {fileID: 0}
---- !u!114 &1965452187704126007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3320dac7a6bd99d4ea36a5e5cdac9d02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hook: {fileID: 1894615705591204191}
-  hookSpeed: 100
---- !u!114 &1815055636160949427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c579bce4c4fce714982fbdeeb855b56d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 100066}
 --- !u!1 &115064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,7 +1191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 173bcb36ee2b03b4fbaf6cf6d69dc095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hookLength: 20
   playerCollider: {fileID: 3566610964694593007}
 --- !u!54 &8636616517004879825
 Rigidbody:
