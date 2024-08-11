@@ -5,44 +5,57 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float movementSpeed;
 
+    private Transform cameraTransform;
     private CharacterController characterController;
+    private Animator playerAnimator;
     private float currentAngle = 0;
 
+    private float gravity = -9.8f;
+
     private Vector3 input;
-    private Quaternion currentRotation;
+    private Vector3 velocity;
+
+    private float playerCurrentSpeed;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        cameraTransform = FindObjectOfType<CameraController>().GetComponent<Transform>();
+        playerAnimator = GetComponent<Animator>();
     }
     
     void Update()
     {
-        RotatePlayer();
-        MovePlayer();
-    }
-
-    void RotatePlayer()
-    {
         input.x = Input.GetAxis("Horizontal");
         input.z = Input.GetAxis("Vertical");
 
-        input = input.magnitude > 1 ? input.normalized : input;
+        velocity.y = (characterController.isGrounded && velocity.y <= 1) ? -2f : velocity.y + gravity * Time.deltaTime;
 
-        float targetAngle = Mathf.Atan2(input.x, input.z) * Mathf.Rad2Deg;
-        currentAngle = targetAngle + (currentAngle - targetAngle) * Mathf.Pow(rotationSpeed, Time.deltaTime);
-
-        currentRotation = Quaternion.Euler(0, currentAngle, 0);
-
-        transform.rotation = currentRotation;
-
-        // fix negative angles issue.
+        if(input.magnitude > 0)
+        MovePlayer();
     }
 
     void MovePlayer()
     {
-        characterController.Move(currentRotation * Vector3.forward * input.magnitude * movementSpeed * Time.deltaTime);
+        input = input.magnitude > 1 ? input.normalized : input;
+
+        float inputAngle = Mathf.Atan2(input.x, input.z) * Mathf.Rad2Deg;
+        float targetAngle = inputAngle + cameraTransform.eulerAngles.y;
+
+        currentAngle = targetAngle + (currentAngle - targetAngle) * Mathf.Pow(rotationSpeed, Time.deltaTime);
+
+        // fix jumping angles. Check guardians puzzle?
+        transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+
+        playerCurrentSpeed = movementSpeed * input.magnitude;
+        playerAnimator.SetFloat("speed", input.magnitude);
+
+        Vector3 playerMovement = transform.rotation * Vector3.forward * playerCurrentSpeed;
 
         // lerp speed?
+        velocity.x = playerMovement.x;
+        velocity.z = playerMovement.z;
+
+        characterController.Move(Time.deltaTime * velocity);
     }
 }

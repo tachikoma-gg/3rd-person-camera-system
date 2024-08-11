@@ -15,36 +15,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform cameraLookTarget;
 
-    void Update()
+    private Vector3 input;
+
+    void Start()
     {
-        SetTarget();
-        RotateCamera();
-        MoveCamera();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void LateUpdate()
     {
+        transform.position = playerTransform.position + targetDirection * distance;
         transform.LookAt(cameraLookTarget);
     }
-
-    void SetTarget()
-    {
-        targetPosition = playerTransform.position + targetDirection * distance;
-    }
-
-    void MoveCamera()
-    {
-        float x = targetPosition.x + Mathf.Pow(transform.position.x - targetPosition.x, -lerpSpeed * Time.deltaTime);
-        float y = targetPosition.y + Mathf.Pow(transform.position.y - targetPosition.y, -lerpSpeed * Time.deltaTime);
-        float z = targetPosition.z + Mathf.Pow(transform.position.z - targetPosition.z, -lerpSpeed * Time.deltaTime);
-
-        transform.position = new (x, y, z);
-    }
-
-    void RotateCamera()
-    {
-
-    }
-
-    
 }
